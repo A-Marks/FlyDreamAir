@@ -1,0 +1,1 @@
+// this is a stub; functions for implementing flight management will go here
