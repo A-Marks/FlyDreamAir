@@ -1,11 +1,11 @@
 function initialise() {
     const flights = [];
-    flights.push(["FlyDreamAir #3170", "26-06-2022/10:00", "Melbourne"]);
-    flights.push(["FlyDreamAir #3171", "26-06-2022/12:00", "Sydney"]);
-    flights.push(["FlyDreamAir #3172", "27-06-2022/15:00", "Melbourne"]);
-    flights.push(["FlyDreamAir #3173", "27-06-2022/15:15", "Brisbane"]);
-    flights.push(["FlyDreamAir #3174", "27-06-2022/17:00", "Adelaide"]);
-    flights.push(["FlyDreamAir #3175", "28-06-2022/8:30", "Melbourne"]);
+    flights.push(["FlyDreamAir #3170", "26-06-2022/10:00", "Melbourne", 8, 6]);
+    flights.push(["FlyDreamAir #3171", "26-06-2022/12:00", "Sydney", 8, 6]);
+    flights.push(["FlyDreamAir #3172", "27-06-2022/15:00", "Melbourne", 8, 6]);
+    flights.push(["FlyDreamAir #3173", "27-06-2022/15:15", "Brisbane", 8, 6]);
+    flights.push(["FlyDreamAir #3174", "27-06-2022/17:00", "Adelaide", 12, 8]);
+    flights.push(["FlyDreamAir #3175", "28-06-2022/8:30", "Melbourne", 8, 6]);
     localStorage.setItem("fdaflights", JSON.stringify(flights));
 
     const menu = [];
