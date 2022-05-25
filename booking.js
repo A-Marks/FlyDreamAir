@@ -74,7 +74,7 @@ function selectSeat() {
 
         html += "Row: <input type='number' id='rowinput'></input><br />";
         html += "Column: <input type='number' id='columninput'></input><br />";
-        html += "<button onclick='submit()'>Book Seat</button>"
+        html += "<button onclick='submit()'>Book Seat</button>";
 
         displaydiv.innerHTML = html;
     }
