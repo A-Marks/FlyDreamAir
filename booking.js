@@ -1,59 +1,97 @@
 function book() {
     var displaydiv = document.getElementById("display");
     var html = "";// contains the html code that will be shown in the display div in the driver.
+    var output = JSON.parse(localStorage.getItem("fdaflights"));
 
     html += "<table><tr>";
     html += "<th>Flight Name</th>";
     html += "<th>Date/Time</th>";
     html += "<th>Destination</th></tr>";
 
-    // this block of code constructs the table of available flights; the current implementation is static, and will be changed when the database is integrated
-    html += "<tr><td>FlyDreamAir #3170</td><td>26-06-2022/10:00</td><td>Melbourne</td></tr>";
-    html += "<tr><td>FlyDreamAir #3171</td><td>26-06-2022/12:00</td><td>Sydney</td></tr>";
+    for(let i = 0; i < output.length; i++) {
+        html += "<tr>";
+        for(let j = 0; j < (output[i].length - 2); j++) {
+            html += "<Td>" + output[i][j] + "</td>";
+        }
+        html += "</tr>";
+    }
+
     html += "</table><br />";
 
-    html += "Flight Number: <input type='number' id='flightinput'></input><br />";
+    html += "Flight Name: <input type='text' id='flightinput'></input><br />";
     html += "<button onclick='selectSeat()'>Continue</button><br /><br />";
 
     displaydiv.innerHTML = html;
 }
 
 function selectSeat() {
-    var displaydiv = document.getElementById("display");
-    var html = ""; // contains the html code that will be shown in the display div in the driver.
+    var flight = document.getElementById("flightinput").value;
+    var flightList = JSON.parse(localStorage.getItem("fdaflights"));
+    var verified = false;
+    var flightIndex = 0;
 
-    html += "<table>";
-
-    // dictates how many rows and columns are printed to the screen; ensure this matches whatever database is implemented.
-    var rows = 8;
-    var columns = 6;
-
-    // this loop creates the header of the seat table
-    html += "<tr><th></th>"; 
-    for (let x = 0; x < columns; x++) {
-        html += "<th>" + (x + 1) + "</th>";
+    for (let i = 0; i < flightList.length; i++) {
+        if (flightList[i].includes(flight)) {
+            verified = true;
+            flightIndex = i;
+        }
     }
-    html += "</tr>"
 
-    for (let i = 0; i < rows; i++) {
-        html += "<tr><th>" + (i + 1) + "</th>";
+    if (verified) {
+        var displaydiv = document.getElementById("display");
+        var html = ""; // contains the html code that will be shown in the display div in the driver.
+        var bookingsList = JSON.parse(localStorage.getItem("fdabookings"));
 
-        for (let j = 0; j < columns; j++) {
-            html += "<td><img src='images/seat.png' /></td>";
+        html += "<input type='number' id='indexfield' value=" + flightIndex + " readonly />";
+        html += "<table>";
+
+        // dictates how many rows and columns are printed to the screen; ensure this matches whatever database is implemented.
+        var rows = flightList[flightIndex][3];
+        var columns = flightList[flightIndex][4];
+
+        // this loop creates the header of the seat table
+        html += "<tr><th></th>"; 
+        for (let x = 0; x < columns; x++) {
+            html += "<th>" + (x + 1) + "</th>";
+        }
+        html += "</tr>";
+
+        for (let i = 0; i < rows; i++) {
+            html += "<tr><th>" + (i + 1) + "</th>";
+
+            for (let j = 0; j < columns; j++) {
+                if (bookingsList[flightIndex].includes(String(i + 1) + String(j + 1))) {
+                    html += "<td><img src='images/seat.png' style='background-color:coral;' /></td>";
+                } else {
+                    html += "<td><img src='images/seat.png' /></td>";
+                }
+            }
+
+            html += "</tr>";
         }
 
-        html += "</tr>";
+        html += "</table><br /><br />";
+
+        html += "Row: <input type='number' id='rowinput'></input><br />";
+        html += "Column: <input type='number' id='columninput'></input><br />";
+        html += "<button onclick='submit()'>Book Seat</button>";
+
+        displaydiv.innerHTML = html;
     }
-
-    html += "</table><br /><br />";
-
-    html += "Row: <input type='number' id='rowinput'></input><br />";
-    html += "Column: <input type='number' id='columninput'></input><br />";
-    html += "<button onclick='submit()'>Book Seat</button>"
-
-    displaydiv.innerHTML = html;
 }
 
 function submit() {
-    alert("This is a stub. Expand this function when persistent data storage is implemented.");
+    var row = document.getElementById("rowinput").value;
+    var column = document.getElementById("columninput").value;
+    var bookingsList = JSON.parse(localStorage.getItem("fdabookings"));
+    var flightIndex = document.getElementById("indexfield").value;
+
+    if (bookingsList[flightIndex].includes(String(row) + String(column))) {
+        alert("Seat already booked");
+    } else {
+        bookingsList[flightIndex].push(String(row) + String(column));
+        localStorage.setItem("fdabookings", JSON.stringify(bookingsList));
+    }
+
+    document.getElementById("display").innerHTML = "";
 }
