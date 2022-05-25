@@ -27,4 +27,6 @@ function sendOrder() {
     let input = document.getElementById("iteminput");
     console.log("Order placed for Item#" + input.value);
     // in production, this should send an alert to the staff on the customer's flight
+    
+    document.getElementById("display").innerHTML = "";
 }
