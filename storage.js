@@ -19,6 +19,12 @@ function initialise() {
     localStorage.setItem("fdamenu", JSON.stringify(menu));
 
     const bookings = [];
+    bookings.push([]);
+    bookings.push([]);
+    bookings.push([]);
+    bookings.push([]);
+    bookings.push(["31"]);
+    bookings.push([]);
     localStorage.setItem("fdabookings", JSON.stringify(bookings));
 }
 
